@@ -1,23 +1,29 @@
-interface Book {
-  id: string;
-  name: string;
+import { useState } from 'react';
+
+interface Values {
+  x: number;
+  y: number;
+  z: number;
 }
 
-const books: Book[] = [
-  { id: "id-1", name: "JS for beginners" },
-  { id: "id-2", name: "React basics" },
-  { id: "id-3", name: "React Query overview" },
-];
-
 export default function App() {
+  const [values, setValues] = useState<Values>({ x: 0, y: 0, z: 0 });
+
+  const updateValue = (key: keyof Values) => {
+    setValues({
+      ...values,
+      [key]: values[key] + 1,
+    });
+  };
+
   return (
     <>
-      <h1>Books of the week</h1>
-      <ul>
-        {books.map(({ id, name }) => {
-          return <li key={id}>{name}</li>;
-        })}
-      </ul>
+      <p>
+        x: {values.x}, y: {values.y}, z: {values.z}
+      </p>
+      <button onClick={() => updateValue('x')}>Update x</button>
+      <button onClick={() => updateValue('y')}>Update y</button>
+      <button onClick={() => updateValue('z')}>Update z</button>
     </>
   );
 }
